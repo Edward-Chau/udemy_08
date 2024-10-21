@@ -39,7 +39,9 @@ class _TabsState extends State<Tabs> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return const FilterScreen();
+            return FilterScreen(
+              currentFilter: selectedFliter,
+            );
           },
         ),
       );
@@ -134,7 +136,7 @@ class _TabsState extends State<Tabs> {
       if (selectedFliter[Fliter.glutenFree]! && !item.isGlutenFree) {
         return false;
       }
-      if (selectedFliter[Fliter.glutenFree]! && !item.isLactoseFree) {
+      if (selectedFliter[Fliter.lactoseFree]! && !item.isLactoseFree) {
         return false;
       }
       if (selectedFliter[Fliter.vegan]! && !item.isVegan) {
