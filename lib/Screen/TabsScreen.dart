@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:udemy_08/Screen/categoriesScreen.dart';
 import 'package:udemy_08/Screen/mealScreen.dart';
 import 'package:udemy_08/Widget/filterScreen.dart';
 import 'package:udemy_08/data/Categories_data.dart';
 import 'package:udemy_08/model/Model.dart';
+import 'package:udemy_08/providers/meals_provider.dart';
 
-class Tabs extends StatefulWidget {
+class Tabs extends ConsumerStatefulWidget {
   const Tabs({super.key});
 
   @override
-  State<Tabs> createState() => _TabsState();
+  ConsumerState<Tabs> createState() => _TabsState();
 }
 
 List<Meal> favouriteList = [];
@@ -29,7 +31,7 @@ Map<Fliter, bool> selectedFliter = {
 //   }
 // }
 
-class _TabsState extends State<Tabs> {
+class _TabsState extends ConsumerState<Tabs> {
   int selectedPage = 0;
   void pushFilterScreen(String identifier) async {
     if (identifier == 'filter') {
@@ -131,8 +133,10 @@ class _TabsState extends State<Tabs> {
 
   @override
   Widget build(BuildContext context) {
+
+    final meals=ref.watch(mealsProvider);
     // List<Meal> mealList =dummyMeals;
-    List<Meal> mealList = dummyMeals.where((item) {
+    List<Meal> mealList = meals.where((item) {
       if (selectedFliter[Fliter.glutenFree]! && !item.isGlutenFree) {
         return false;
       }
