@@ -5,9 +5,8 @@ import 'package:udemy_08/Widget/meal_item_trait.dart';
 import 'package:udemy_08/model/Model.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({required this.favouriteListKeep,required this.mealItem, super.key});
+  const MealItem({required this.mealItem, super.key});
   final Meal mealItem;
-final void Function(Meal) favouriteListKeep;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,9 @@ final void Function(Meal) favouriteListKeep;
             context,
             MaterialPageRoute(
               builder: (context) {
-                return MealDetails(mealItem: mealItem,favouriteListKeep: favouriteListKeep,);
+                return MealDetails(
+                  mealItem: mealItem,
+                );
               },
             ),
           );

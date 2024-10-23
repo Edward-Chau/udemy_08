@@ -5,8 +5,8 @@ import 'package:udemy_08/model/Model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({required this.favouriteListKeep, super.key, required this.pushFilterScreen, required this.mealList});
-  final void Function(Meal) favouriteListKeep;
+  const CategoriesScreen({ super.key, required this.pushFilterScreen, required this.mealList});
+
   final Function(String) pushFilterScreen;
     final List<Meal> mealList;
   @override
@@ -34,7 +34,7 @@ class CategoriesScreen extends StatelessWidget {
           // ),
           Expanded(
             child: CategoriesItem(mealList: mealList,
-              favouriteListKeep: favouriteListKeep,
+        
             ),
           ),
         ],

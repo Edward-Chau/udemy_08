@@ -5,6 +5,7 @@ import 'package:udemy_08/Screen/mealScreen.dart';
 import 'package:udemy_08/Widget/filterScreen.dart';
 import 'package:udemy_08/data/Categories_data.dart';
 import 'package:udemy_08/model/Model.dart';
+import 'package:udemy_08/providers/favourite_provider.dart';
 import 'package:udemy_08/providers/meals_provider.dart';
 
 class Tabs extends ConsumerStatefulWidget {
@@ -59,82 +60,68 @@ class _TabsState extends ConsumerState<Tabs> {
     }
   }
 
-  void favouriteListKeep(Meal mealItem) {
-    final isExisting = favouriteList.contains(mealItem);
-    if (isExisting == true) {
-      setState(
-        () {
-          favouriteList.remove(mealItem);
-        },
-      );
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.grey[800],
-          duration: const Duration(seconds: 3),
-          content: const Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: 12),
-                child: Icon(
-                  Icons.delete_rounded,
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                "Keep remove",
-                style: TextStyle(color: Colors.white),
-              )
-            ],
-          ),
-        ),
-      );
-    } else {
-      setState(() {
-        favouriteList.add(mealItem);
-      });
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.grey[800],
-          duration: const Duration(seconds: 3),
-          content: const Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: 12),
-                child: Icon(
-                  Icons.save_alt,
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                "Keep Added",
-                style: TextStyle(color: Colors.white),
-              )
-            ],
-          ),
-        ),
-      );
-    }
-  }
-
-  // List<Widget> showScreen = [
-  //    CategoriesScreen(
-  //     favouriteListKeep: favouriteListKeep,
-  //   ),
-  //   MealScreen(
-  //     favouriteListKeep: favouriteListKeep,
-  //     meals: favouriteList,
-  //     appTitle: "Favourite",
-  //   )
-  // ];
-
-  // List<String> title = ["Categories", "Favourite"];
+  // void favouriteListKeep(Meal mealItem) {
+  //   final isExisting = favouriteList.contains(mealItem);
+  //   if (isExisting == true) {
+  //     setState(
+  //       () {
+  //         favouriteList.remove(mealItem);
+  //       },
+  //     );
+  //     ScaffoldMessenger.of(context).clearSnackBars();
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         backgroundColor: Colors.grey[800],
+  //         duration: const Duration(seconds: 3),
+  //         content: const Row(
+  //           children: [
+  //             Padding(
+  //               padding: EdgeInsets.only(right: 12),
+  //               child: Icon(
+  //                 Icons.delete_rounded,
+  //                 color: Colors.white,
+  //               ),
+  //             ),
+  //             Text(
+  //               "Keep remove",
+  //               style: TextStyle(color: Colors.white),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     setState(() {
+  //       favouriteList.add(mealItem);
+  //     });
+  //     ScaffoldMessenger.of(context).clearSnackBars();
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         backgroundColor: Colors.grey[800],
+  //         duration: const Duration(seconds: 3),
+  //         content: const Row(
+  //           children: [
+  //             Padding(
+  //               padding: EdgeInsets.only(right: 12),
+  //               child: Icon(
+  //                 Icons.save_alt,
+  //                 color: Colors.white,
+  //               ),
+  //             ),
+  //             Text(
+  //               "Keep Added",
+  //               style: TextStyle(color: Colors.white),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-
-    final meals=ref.watch(mealsProvider);
+    final meals = ref.watch(mealsProvider);
     // List<Meal> mealList =dummyMeals;
     List<Meal> mealList = meals.where((item) {
       if (selectedFliter[Fliter.glutenFree]! && !item.isGlutenFree) {
@@ -152,15 +139,14 @@ class _TabsState extends ConsumerState<Tabs> {
       return true;
     }).toList();
 
+    final List<Meal> favouriteListFormProvider = ref.watch(favouriteMeal);
     List<Widget> showScreen = [
       CategoriesScreen(
         pushFilterScreen: pushFilterScreen,
-        favouriteListKeep: favouriteListKeep,
         mealList: mealList,
       ),
       MealScreen(
-        favouriteListKeep: favouriteListKeep,
-        meals: favouriteList,
+        meals: favouriteListFormProvider,
         appTitle: "Favourite",
       ),
     ];

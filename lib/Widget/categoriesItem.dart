@@ -6,8 +6,8 @@ import 'package:udemy_08/model/Model.dart';
 const double gridSpac = 20;
 
 class CategoriesItem extends StatelessWidget {
-  const CategoriesItem({required this.favouriteListKeep, super.key, required this.mealList});
-  final void Function(Meal) favouriteListKeep;
+  const CategoriesItem({ super.key, required this.mealList});
+
   final List<Meal> mealList;
   
   void _selectCategories(BuildContext context, int index) {
@@ -16,7 +16,7 @@ class CategoriesItem extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) {
           return MealScreen(
-            favouriteListKeep: favouriteListKeep,
+
             appTitle: availableCategories[index].title,
             meals: mealList.where(
               (eachMeal) {

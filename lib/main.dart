@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:udemy_08/Screen/TabsScreen.dart';
+import 'package:udemy_08/Screen/test01.dart';
 
 void main() {
   runApp(ProviderScope(child: App()));
@@ -25,8 +26,8 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: theme,
       home: const Scaffold(
-        // body: CategoriesScreen(),
-        body: Tabs(),
+        body: MyWidget(),
+        // body: Tabs(),
       ),
     );
   }

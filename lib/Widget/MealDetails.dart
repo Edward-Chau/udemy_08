@@ -1,35 +1,89 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:udemy_08/Screen/TabsScreen.dart';
 import 'package:udemy_08/model/Model.dart';
+import 'package:udemy_08/providers/favourite_provider.dart';
 
-class MealDetails extends StatefulWidget {
-  const MealDetails(
-      {required this.favouriteListKeep, required this.mealItem, super.key});
+class MealDetails extends ConsumerStatefulWidget {
+  const MealDetails({required this.mealItem, super.key});
   final Meal mealItem;
-  final void Function(Meal) favouriteListKeep;
+
   @override
-  State<MealDetails> createState() => _MealDetailsState();
+  ConsumerState<MealDetails> createState() => _MealDetailsState();
 }
 
+void remove(BuildContext context) {
+  ScaffoldMessenger.of(context).clearSnackBars();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.grey[800],
+      duration: const Duration(seconds: 3),
+      content: const Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: Icon(
+              Icons.delete_rounded,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            "Keep remove",
+            style: TextStyle(color: Colors.white),
+          )
+        ],
+      ),
+    ),
+  );
+}
 
+void keep(BuildContext context) {
+  ScaffoldMessenger.of(context).clearSnackBars();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.grey[800],
+      duration: const Duration(seconds: 3),
+      content: const Row(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: Icon(
+              Icons.save_alt,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            "Keep Added",
+            style: TextStyle(color: Colors.white),
+          )
+        ],
+      ),
+    ),
+  );
+}
 
-
-class _MealDetailsState extends State<MealDetails> {
+class _MealDetailsState extends ConsumerState<MealDetails> {
   @override
   Widget build(BuildContext context) {
+    final List<Meal> favoritelist = ref.watch(favouriteMeal);
+
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {setState(() {
-               widget.favouriteListKeep(widget.mealItem);
-            });
-             
+            onPressed: () {
+              final message =
+                  ref.read(favouriteMeal.notifier).keepMeals(widget.mealItem);
+
+              if (message) {
+                remove(context);
+              } else {
+                keep(context);
+              }
             },
             icon: Icon(
               Icons.favorite,
-              color: favouriteList.contains(widget.mealItem)
+              color: favoritelist.contains(widget.mealItem)
                   ? Colors.red
                   : Colors.grey,
             ),

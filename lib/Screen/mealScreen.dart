@@ -3,14 +3,9 @@ import 'package:udemy_08/Widget/mealItem.dart';
 import 'package:udemy_08/model/Model.dart';
 
 class MealScreen extends StatelessWidget {
-  const MealScreen(
-      {required this.favouriteListKeep,
-      required this.appTitle,
-      required this.meals,
-      super.key});
+  const MealScreen({required this.appTitle, required this.meals, super.key});
   final String appTitle;
   final List<Meal> meals;
-  final void Function(Meal) favouriteListKeep;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +27,6 @@ class MealScreen extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 return MealItem(
                   mealItem: meals[index],
-                  favouriteListKeep: favouriteListKeep,
                 );
               },
             ),
