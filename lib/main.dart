@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:udemy_08/Screen/TabsScreen.dart';
+import 'package:udemy_08/Screen/categoriesScreen.dart';
 import 'package:udemy_08/Screen/test01.dart';
 
 void main() {
@@ -23,6 +24,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // routes: {'sss':((context){return CategoriesScreen(pushFilterScreen: pushFilterScreen, mealList: mealList)})},
       debugShowCheckedModeBanner: false,
       theme: theme,
       home: const Scaffold(

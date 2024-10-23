@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+//set好?
 int number = 0;
 
 class Notifier extends StateNotifier<int> {
