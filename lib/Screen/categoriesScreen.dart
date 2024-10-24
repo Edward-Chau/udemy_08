@@ -5,9 +5,9 @@ import 'package:udemy_08/model/Model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({ super.key, required this.pushFilterScreen, required this.mealList});
+  const CategoriesScreen({ super.key, required this.mealList});
 
-  final Function(String) pushFilterScreen;
+
     final List<Meal> mealList;
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class CategoriesScreen extends StatelessWidget {
 
 
     return Scaffold(
-      drawer:  MainDrawerBar(pushFilterScreen: pushFilterScreen),
+      drawer:  const MainDrawerBar(),
       appBar: AppBar(
         title: const Text("Categories"),
       ),

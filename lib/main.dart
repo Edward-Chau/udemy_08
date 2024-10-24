@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:udemy_08/Screen/TabsScreen.dart';
-import 'package:udemy_08/Screen/categoriesScreen.dart';
-import 'package:udemy_08/Screen/test01.dart';
+import 'package:udemy_08/Widget/filterScreen.dart';
+
 
 void main() {
   runApp(ProviderScope(child: App()));
@@ -28,9 +28,9 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: theme,
       home: const Scaffold(
-        body: MyWidget(),
-        // body: Tabs(),
+        // body: MyWidget(),
+        body: Tabs(),
       ),
-    );
+    routes:{ 'filterScreen':((context){return const FilterScreen();})});
   }
 }

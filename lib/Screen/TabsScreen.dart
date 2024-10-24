@@ -6,7 +6,9 @@ import 'package:udemy_08/Widget/filterScreen.dart';
 import 'package:udemy_08/data/Categories_data.dart';
 import 'package:udemy_08/model/Model.dart';
 import 'package:udemy_08/providers/favourite_provider.dart';
+import 'package:udemy_08/providers/filter_provider.dart';
 import 'package:udemy_08/providers/meals_provider.dart';
+import 'package:udemy_08/providers/pageIndex_provider.dart';
 
 class Tabs extends ConsumerStatefulWidget {
   const Tabs({super.key});
@@ -16,12 +18,12 @@ class Tabs extends ConsumerStatefulWidget {
 }
 
 List<Meal> favouriteList = [];
-Map<Fliter, bool> selectedFliter = {
-  Fliter.glutenFree: false,
-  Fliter.lactoseFree: false,
-  Fliter.vegan: false,
-  Fliter.vgetarian: false
-};
+// Map<Fliter, bool> selectedFliter = {
+//   Fliter.glutenFree: false,
+//   Fliter.lactoseFree: false,
+//   Fliter.vegan: false,
+//   Fliter.vgetarian: false
+// };
 
 // void favouriteListKeep(Meal mealItem) {
 //   final isExisting = favouriteList.contains(mealItem);
@@ -33,32 +35,31 @@ Map<Fliter, bool> selectedFliter = {
 // }
 
 class _TabsState extends ConsumerState<Tabs> {
-  int selectedPage = 0;
-  void pushFilterScreen(String identifier) async {
-    if (identifier == 'filter') {
-      Navigator.pop(context);
+  // void pushFilterScreen(String identifier) async {
+  //   if (identifier == 'filter') {
+  //     Navigator.pop(context);
 
-      final result = await Navigator.push<Map<Fliter, bool>>(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return FilterScreen(
-              currentFilter: selectedFliter,
-            );
-          },
-        ),
-      );
-      setState(() {
-        selectedFliter = result ??
-            {
-              Fliter.glutenFree: false,
-              Fliter.lactoseFree: false,
-              Fliter.vegan: false,
-              Fliter.vgetarian: false
-            };
-      });
-    }
-  }
+  //     final result = await Navigator.push<Map<Fliter, bool>>(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) {
+  //           return FilterScreen(
+  //             currentFilter: selectedFliter,
+  //           );
+  //         },
+  //       ),
+  //     );
+  //     setState(() {
+  //       selectedFliter = result ??
+  //           {
+  //             Fliter.glutenFree: false,
+  //             Fliter.lactoseFree: false,
+  //             Fliter.vegan: false,
+  //             Fliter.vgetarian: false
+  //           };
+  //     });
+  //   }
+  // }
 
   // void favouriteListKeep(Meal mealItem) {
   //   final isExisting = favouriteList.contains(mealItem);
@@ -121,28 +122,13 @@ class _TabsState extends ConsumerState<Tabs> {
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(mealsProvider);
+    final List<Meal> filterMeals = ref.watch(getFilterMealProvider);
     // List<Meal> mealList =dummyMeals;
-    List<Meal> mealList = meals.where((item) {
-      if (selectedFliter[Fliter.glutenFree]! && !item.isGlutenFree) {
-        return false;
-      }
-      if (selectedFliter[Fliter.lactoseFree]! && !item.isLactoseFree) {
-        return false;
-      }
-      if (selectedFliter[Fliter.vegan]! && !item.isVegan) {
-        return false;
-      }
-      if (selectedFliter[Fliter.vgetarian]! && !item.isVegetarian) {
-        return false;
-      }
-      return true;
-    }).toList();
+    List<Meal> mealList = filterMeals;
 
     final List<Meal> favouriteListFormProvider = ref.watch(favouriteMeal);
     List<Widget> showScreen = [
       CategoriesScreen(
-        pushFilterScreen: pushFilterScreen,
         mealList: mealList,
       ),
       MealScreen(
@@ -150,16 +136,14 @@ class _TabsState extends ConsumerState<Tabs> {
         appTitle: "Favourite",
       ),
     ];
-
+    final pageIndex = ref.watch(pageIndexProvider);
     return Scaffold(
-      body: showScreen[selectedPage],
+      body: showScreen[pageIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedPage,
+        currentIndex: pageIndex,
         selectedItemColor: Colors.blue,
         onTap: (indexValue) {
-          setState(() {
-            selectedPage = indexValue;
-          });
+          ref.read(pageIndexProvider.notifier).pagechage(indexValue);
         },
         items: const [
           BottomNavigationBarItem(

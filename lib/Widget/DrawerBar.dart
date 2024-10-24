@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:udemy_08/Screen/mealScreen.dart';
 
 class MainDrawerBar extends StatelessWidget {
-  const MainDrawerBar({super.key, required this.pushFilterScreen});
-  final Function(String) pushFilterScreen;
+  const MainDrawerBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -44,12 +45,12 @@ class MainDrawerBar extends StatelessWidget {
             title: Text(
               "Meals",
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 24,
                   ),
             ),
             onTap: () {
-              pushFilterScreen('meals');
+              Navigator.pop(context);
             },
           ),
           ListTile(
@@ -57,12 +58,13 @@ class MainDrawerBar extends StatelessWidget {
             title: Text(
               "Filter",
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 24,
                   ),
             ),
             onTap: () {
-              pushFilterScreen('filter');
+              Navigator.pop(context);
+              Navigator.pushNamed(context, 'filterScreen');
             },
           ),
         ],
